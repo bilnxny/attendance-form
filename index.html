@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Attendance QR Code</title>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; background: #0f172a; color: #fff; }
+    #qrcode { background: #fff; padding: 20px; display: inline-block; border-radius: 12px; }
+    h1 { margin-bottom: 30px; }
+    p { margin-top: 20px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <h1>Scan to Mark Attendance</h1>
+  <div id="qrcode"></div>
+  <p>Ethical Hacking & Forex Trading</p>
+
+  <script>
+    const url = "https://yourusername.github.io/attendance-form/"; // <-- change this
+    QRCode.toCanvas(document.createElement('canvas'), url, { width: 300 }, function (err, canvas) {
+      if (err) console.error(err);
+      document.getElementById('qrcode').appendChild(canvas);
+    });
+  </script>
+</body>
+</html>
