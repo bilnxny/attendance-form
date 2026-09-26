@@ -1,27 +1,740 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Attendance QR Code</title>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 40px; background: #0f172a; color: #fff; }
-    #qrcode { background: #fff; padding: 20px; display: inline-block; border-radius: 12px; }
-    h1 { margin-bottom: 30px; }
-    p { margin-top: 20px; color: #94a3b8; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATTENDANCE.SYS · Ethical Hacking & Forex Trading</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+  :root{
+    --green:#00ff41;
+    --green-dim:#0a7a1f;
+    --green-glow:rgba(0,255,65,.55);
+    --bg:#0d0208;
+    --panel:rgba(0,20,5,.72);
+    --border:rgba(0,255,65,.35);
+    --text:#c8ffd4;
+    --cyan:#00e5ff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    font-family:'Share Tech Mono', 'JetBrains Mono', monospace;
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+    position:relative;
+  }
+  /* Matrix canvas behind everything */
+  #matrix{
+    position:fixed;inset:0;
+    z-index:0;
+    display:block;
+  }
+  body::after{
+    content:"";
+    position:fixed;inset:0;z-index:1;pointer-events:none;
+    background:
+      radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.85) 100%),
+      repeating-linear-gradient(0deg, rgba(0,255,65,.04) 0px, rgba(0,255,65,.04) 1px, transparent 1px, transparent 3px);
+  }
+
+  .container{
+    position:relative;z-index:2;
+    max-width:900px;
+    margin:0 auto;
+    padding:22px 16px 60px;
+  }
+
+  /* HEADER */
+  header{
+    display:flex;justify-content:space-between;align-items:center;
+    gap:14px;flex-wrap:wrap;
+    padding:14px 16px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    backdrop-filter:blur(6px);
+    border-radius:12px;
+    box-shadow:0 0 24px rgba(0,255,65,.08), inset 0 0 24px rgba(0,255,65,.04);
+    margin-bottom:18px;
+  }
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{
+    width:46px;height:46px;border-radius:10px;
+    border:1px solid var(--green);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--green);font-size:20px;
+    background:rgba(0,255,65,.08);
+    box-shadow:0 0 18px var(--green-glow) inset, 0 0 14px var(--green-glow);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse{
+    0%,100%{box-shadow:0 0 18px var(--green-glow) inset, 0 0 14px var(--green-glow);}
+    50%{box-shadow:0 0 30px var(--green-glow) inset, 0 0 26px var(--green-glow);}
+  }
+  .brand h1{
+    font-size:17px;letter-spacing:2px;color:var(--green);
+    text-shadow:0 0 8px var(--green-glow);
+  }
+  .brand .subtitle{
+    font-size:11px;color:#5fbf7a;margin-top:3px;letter-spacing:1px;
+  }
+  .brand .subtitle::before{content:"// ";opacity:.6}
+
+  /* Instagram button */
+  .ig-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:9px 14px;
+    border:1px solid #ff3b8b;
+    border-radius:9px;
+    color:#ff8bc0;
+    background:linear-gradient(135deg, rgba(255,59,139,.12), rgba(255,178,102,.08));
+    text-decoration:none;
+    font-size:12.5px;letter-spacing:.6px;
+    transition:.2s;
+    box-shadow:0 0 12px rgba(255,59,139,.25);
+  }
+  .ig-btn:hover{
+    background:linear-gradient(135deg,#ff3b8b,#ffb266);
+    color:#0d0208;
+    box-shadow:0 0 22px rgba(255,59,139,.6);
+    transform:translateY(-1px);
+  }
+  .ig-btn svg{width:16px;height:16px;fill:currentColor}
+
+  /* TABS */
+  .tabs{
+    display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;
+  }
+  .tab{
+    flex:1;min-width:150px;
+    padding:13px 12px;
+    font-family:inherit;
+    font-size:13px;letter-spacing:1.4px;
+    color:#5fbf7a;
+    background:rgba(0,20,5,.6);
+    border:1px solid var(--border);
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
+    text-align:center;
+  }
+  .tab:hover{color:var(--green);border-color:var(--green);}
+  .tab.active{
+    color:var(--green);
+    background:rgba(0,255,65,.1);
+    border-color:var(--green);
+    box-shadow:0 0 18px rgba(0,255,65,.35), inset 0 0 18px rgba(0,255,65,.08);
+    text-shadow:0 0 6px var(--green-glow);
+  }
+
+  .tab-panel{display:none;animation:fadeUp .35s ease}
+  .tab-panel.active{display:block}
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+
+  /* CARD */
+  .card{
+    border:1px solid var(--border);
+    background:var(--panel);
+    backdrop-filter:blur(6px);
+    border-radius:14px;
+    padding:22px 20px;
+    box-shadow:0 0 30px rgba(0,255,65,.08), inset 0 0 40px rgba(0,255,65,.03);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg, transparent, var(--green), transparent);
+    animation:scan 3s linear infinite;
+    opacity:.6;
+  }
+  @keyframes scan{
+    0%{transform:translateX(-100%)}
+    100%{transform:translateX(100%)}
+  }
+
+  .card-title{
+    font-size:12px;color:#5fbf7a;letter-spacing:2px;
+    margin-bottom:18px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .card-title::before{
+    content:"▸";color:var(--green);text-shadow:0 0 6px var(--green-glow);
+  }
+  .cursor{
+    display:inline-block;width:8px;height:14px;background:var(--green);
+    margin-left:2px;vertical-align:-2px;
+    animation:blink 1s steps(1) infinite;
+    box-shadow:0 0 8px var(--green-glow);
+  }
+  @keyframes blink{50%{opacity:0}}
+
+  /* FORM */
+  label{
+    display:block;
+    font-size:11.5px;color:#5fbf7a;
+    letter-spacing:1.4px;
+    margin-bottom:7px;
+    text-transform:uppercase;
+  }
+  label::before{content:"> ";color:var(--green);opacity:.85}
+  input,select{
+    width:100%;
+    padding:12px 14px;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--green);
+    background:rgba(0,0,0,.55);
+    border:1px solid var(--border);
+    border-radius:9px;
+    outline:none;
+    margin-bottom:16px;
+    transition:.2s;
+    appearance:none;-webkit-appearance:none;
+  }
+  select{
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2300ff41' stroke-width='3'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:38px;
+    background-color:rgba(0,0,0,.55);
+  }
+  input::placeholder{color:#2f7a45;letter-spacing:.5px}
+  input:focus,select:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(0,255,65,.12), 0 0 18px rgba(0,255,65,.28);
+    background:rgba(0,20,5,.85);
+  }
+  select option{background:#0d0208;color:var(--green)}
+
+  .btn{
+    width:100%;
+    padding:14px;
+    font-family:inherit;
+    font-size:13.5px;letter-spacing:2px;
+    color:var(--green);
+    background:linear-gradient(180deg, rgba(0,255,65,.14), rgba(0,255,65,.05));
+    border:1px solid var(--green);
+    border-radius:10px;
+    cursor:pointer;
+    transition:.2s;
+    text-transform:uppercase;
+    box-shadow:0 0 14px rgba(0,255,65,.25), inset 0 0 14px rgba(0,255,65,.05);
+  }
+  .btn:hover:not(:disabled){
+    background:var(--green);color:#0d0208;
+    box-shadow:0 0 26px var(--green-glow);
+    text-shadow:none;
+  }
+  .btn:active{transform:scale(.99)}
+  .btn:disabled{opacity:.5;cursor:not-allowed}
+  .btn.secondary{
+    color:var(--cyan);border-color:var(--cyan);
+    background:linear-gradient(180deg, rgba(0,229,255,.12), rgba(0,229,255,.04));
+    box-shadow:0 0 14px rgba(0,229,255,.22);
+    margin-top:10px;
+  }
+  .btn.secondary:hover{background:var(--cyan);color:#0d0208;box-shadow:0 0 26px rgba(0,229,255,.6)}
+
+  /* QR */
+  #qrbox{
+    display:none;text-align:center;margin-top:18px;
+    padding-top:18px;border-top:1px dashed var(--border);
+  }
+  #qrcode{display:inline-block;padding:12px;background:#fff;border-radius:10px;box-shadow:0 0 26px var(--green-glow)}
+  #qrurl{font-size:10.5px;color:#5fbf7a;word-break:break-all;margin-top:10px;letter-spacing:.4px}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px;margin-bottom:16px}
+  .stat{
+    border:1px solid var(--border);
+    background:rgba(0,255,65,.05);
+    border-radius:10px;
+    padding:12px 14px;
+    transition:.2s;
+  }
+  .stat:hover{box-shadow:0 0 18px rgba(0,255,65,.22)}
+  .stat b{display:block;font-size:22px;color:var(--green);text-shadow:0 0 10px var(--green-glow);letter-spacing:1px}
+  .stat span{font-size:10px;color:#5fbf7a;letter-spacing:1.4px;text-transform:uppercase}
+
+  .filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+  .filters input,.filters select{margin-bottom:0;flex:1;min-width:140px}
+
+  .tablewrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{
+    background:rgba(0,255,65,.08);
+    color:var(--green);
+    text-align:left;padding:11px 12px;
+    font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;
+    border-bottom:1px solid var(--border);
+  }
+  td{padding:11px 12px;border-top:1px solid rgba(0,255,65,.12);color:var(--text)}
+  tbody tr{transition:.15s}
+  tbody tr:hover{background:rgba(0,255,65,.05)}
+  .tag{
+    display:inline-block;padding:3px 9px;border-radius:6px;
+    font-size:10.5px;letter-spacing:.6px;
+    border:1px solid;
+  }
+  .tag.eh{color:#ff8b8b;border-color:#ff8b8b;background:rgba(255,80,80,.1)}
+  .tag.fx{color:#7cf9b6;border-color:#7cf9b6;background:rgba(80,255,150,.1)}
+
+  .empty,.loader{
+    text-align:center;padding:40px 16px;color:#5fbf7a;font-size:13px;letter-spacing:1px;
+  }
+  .spinner{
+    display:inline-block;width:22px;height:22px;border:2px solid var(--border);
+    border-top-color:var(--green);border-radius:50%;
+    animation:spin .8s linear infinite;margin-bottom:12px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* WARNING BANNER */
+  .warn{
+    display:none;
+    padding:10px 14px;
+    border:1px solid #ffb84d;
+    background:rgba(255,184,77,.08);
+    color:#ffd28a;
+    font-size:11.5px;
+    border-radius:9px;
+    margin-bottom:14px;
+    letter-spacing:.4px;
+    line-height:1.5;
+  }
+
+  /* OVERLAY */
+  .overlay{
+    position:fixed;inset:0;z-index:50;
+    background:rgba(0,0,0,.92);
+    display:none;
+    align-items:center;justify-content:center;
+    flex-direction:column;text-align:center;padding:24px;
+    backdrop-filter:blur(4px);
+  }
+  .overlay.show{display:flex}
+  .overlay .tick{
+    width:96px;height:96px;border-radius:50%;
+    border:2px solid var(--green);
+    display:flex;align-items:center;justify-content:center;
+    color:var(--green);font-size:52px;
+    box-shadow:0 0 40px var(--green-glow), inset 0 0 40px rgba(0,255,65,.15);
+    margin-bottom:20px;
+    animation:pop .45s ease, pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .overlay h2{
+    color:var(--green);font-size:20px;letter-spacing:3px;
+    text-shadow:0 0 12px var(--green-glow);margin-bottom:10px;
+  }
+  .overlay p{color:#5fbf7a;font-size:13px;letter-spacing:.8px;line-height:1.7}
+  .overlay a{
+    margin-top:16px;
+    color:#ff8bc0;text-decoration:none;font-size:12px;
+    border-bottom:1px dashed #ff3b8b;padding-bottom:2px;
+  }
+  .overlay a:hover{color:#ff3b8b}
+
+  /* FOOTER */
+  footer{
+    margin-top:26px;text-align:center;
+    color:#2f7a45;font-size:11.5px;letter-spacing:1.2px;
+  }
+  footer a{
+    color:#ff8bc0;text-decoration:none;
+    border-bottom:1px dashed #ff3b8b;
+    transition:.2s;
+  }
+  footer a:hover{color:#ff3b8b;text-shadow:0 0 8px rgba(255,59,139,.6)}
+  footer .heart{color:#ff3b8b;animation:beat 1.2s infinite}
+  @keyframes beat{50%{opacity:.4}}
+
+  @media (max-width:480px){
+    .brand h1{font-size:14px;letter-spacing:1.4px}
+    .logo{width:40px;height:40px;font-size:17px}
+    .tab{font-size:11.5px;letter-spacing:1px;padding:11px 8px;min-width:120px}
+    .card{padding:18px 15px}
+  }
+</style>
 </head>
 <body>
-  <h1>Scan to Mark Attendance</h1>
-  <div id="qrcode"></div>
-  <p>Ethical Hacking & Forex Trading</p>
 
-  <script>
-    const url = "https://yourusername.github.io/attendance-form/"; // <-- change this
-    QRCode.toCanvas(document.createElement('canvas'), url, { width: 300 }, function (err, canvas) {
-      if (err) console.error(err);
-      document.getElementById('qrcode').appendChild(canvas);
-    });
-  </script>
+<canvas id="matrix"></canvas>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="logo">◤◢</div>
+      <div>
+        <h1>ATTENDANCE.SYS</h1>
+        <p class="subtitle">Ethical Hacking · Forex Trading</p>
+      </div>
+    </div>
+    <a class="ig-btn" href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.2 8.8 2.2 12 2.2zm0 3.24A6.56 6.56 0 105.44 12 6.56 6.56 0 0012 5.44zm0 10.82A4.26 4.26 0 1116.26 12 4.26 4.26 0 0112 16.26zm6.85-11.1a1.53 1.53 0 11-1.53-1.53 1.53 1.53 0 011.53 1.53z"/></svg>
+      @bilxnvyy
+    </a>
+  </header>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" data-tab="form">[ MARK ATTENDANCE ]</button>
+    <button class="tab" data-tab="view">[ VIEW RECORDS ]</button>
+  </div>
+
+  <!-- FORM PANEL -->
+  <section id="tab-form" class="tab-panel active">
+    <div class="card">
+      <div class="warn" id="warnBox"></div>
+      <div class="card-title">STUDENT LOGIN PROTOCOL <span class="cursor"></span></div>
+
+      <form id="form">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="enter_your_name" required autocomplete="name">
+
+        <label for="batch">Batch</label>
+        <select id="batch" name="batch" required>
+          <option value="" disabled selected>select_batch</option>
+          <option>Batch 1</option><option>Batch 2</option><option>Batch 3</option>
+          <option>Batch 4</option><option>Batch 5</option>
+        </select>
+
+        <label for="time">Time Slot</label>
+        <select id="time" name="time" required>
+          <option value="" disabled selected>select_time_slot</option>
+          <option>07:00 AM - 09:00 AM</option>
+          <option>09:00 AM - 11:00 AM</option>
+          <option>11:00 AM - 01:00 PM</option>
+          <option>02:00 PM - 04:00 PM</option>
+          <option>04:00 PM - 06:00 PM</option>
+          <option>06:00 PM - 08:00 PM</option>
+        </select>
+
+        <label for="course">Course</label>
+        <select id="course" name="course" required>
+          <option value="" disabled selected>select_course</option>
+          <option>Ethical Hacking</option>
+          <option>Forex Trading</option>
+        </select>
+
+        <button type="submit" class="btn" id="submitBtn">▶ Submit Attendance</button>
+      </form>
+
+      <button type="button" class="btn secondary" id="showQR">▣ Show QR Code</button>
+
+      <div id="qrbox">
+        <div id="qrcode"></div>
+        <div id="qrurl"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIEW PANEL -->
+  <section id="tab-view" class="tab-panel">
+    <div class="card">
+      <div class="card-title">ATTENDANCE DATABASE <span class="cursor"></span></div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="filters">
+        <input type="text" id="search" placeholder="search_name...">
+        <select id="courseFilter">
+          <option value="">All Courses</option>
+          <option>Ethical Hacking</option>
+          <option>Forex Trading</option>
+        </select>
+        <select id="batchFilter">
+          <option value="">All Batches</option>
+          <option>Batch 1</option><option>Batch 2</option><option>Batch 3</option>
+          <option>Batch 4</option><option>Batch 5</option>
+        </select>
+      </div>
+
+      <div id="content">
+        <div class="loader"><div class="spinner"></div><br>Decrypting records…</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    SYSTEM OPERATIONAL &nbsp;·&nbsp; crafted by
+    <a href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">@bilxnvyy</a>
+    <span class="heart">♥</span>
+  </footer>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="overlay" id="overlay">
+  <div class="tick">✓</div>
+  <h2>ACCESS GRANTED</h2>
+  <p>Attendance successfully recorded.<br>Row transmitted to secure database.</p>
+  <a href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">follow @bilxnvyy on instagram</a>
+</div>
+
+<script>
+/* ============================================================
+   ▼▼▼  PASTE YOUR GOOGLE APPS SCRIPT URL BELOW  ▼▼▼
+   It must start with https:// and end with /exec
+   ============================================================ */
+const SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_URL_HERE";
+/* ============================================================ */
+
+const IG_LINK = "https://www.instagram.com/bilxnvyy";
+
+/* ============ MATRIX RAIN ============ */
+(function(){
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  let w, h, cols, drops, fs = 15;
+  const chars = 'アカサタナハマヤラワ0123456789ABCDEF<>/\\{}[]$#@%&*+=?';
+
+  function init(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    cols = Math.floor(w / fs);
+    drops = new Array(cols).fill(1).map(()=>Math.random()*h/fs);
+    ctx.font = fs + 'px "Share Tech Mono", monospace';
+  }
+  init();
+  window.addEventListener('resize', init);
+
+  let last = 0;
+  function draw(t){
+    if (t - last > 55){
+      last = t;
+      ctx.fillStyle = 'rgba(0,0,0,.08)';
+      ctx.fillRect(0, 0, w, h);
+      for (let i = 0; i < cols; i++){
+        const ch = chars[(Math.random()*chars.length)|0];
+        const y = drops[i]*fs;
+        if (Math.random() > .985){
+          ctx.fillStyle = '#ccffd6';
+          ctx.shadowColor = '#00ff41';
+          ctx.shadowBlur = 8;
+        } else {
+          ctx.fillStyle = 'rgba(0,255,65,' + (0.35 + Math.random()*0.5) + ')';
+          ctx.shadowBlur = 0;
+        }
+        ctx.fillText(ch, i*fs, y);
+        ctx.shadowBlur = 0;
+        if (y > h && Math.random() > .975) drops[i] = 0;
+        drops[i]++;
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ============ TAB SWITCHING ============ */
+const tabs = document.querySelectorAll('.tab');
+const panels = { form: document.getElementById('tab-form'), view: document.getElementById('tab-view') };
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  Object.values(panels).forEach(p => p.classList.remove('active'));
+  panels[t.dataset.tab].classList.add('active');
+  if (t.dataset.tab === 'view') loadRecords();
+}));
+
+/* ============ CONFIG CHECK ============ */
+const configured = SCRIPT_URL && SCRIPT_URL.startsWith('http') && !SCRIPT_URL.includes('PASTE_YOUR');
+const warnBox = document.getElementById('warnBox');
+if (!configured) {
+  warnBox.style.display = 'block';
+  warnBox.innerHTML = '⚠ SCRIPT_URL not configured. Data will be saved locally only. Paste your Apps Script /exec URL into the code to enable Google Sheets.';
+}
+
+/* ============ QR CODE ============ */
+const qrToggle = document.getElementById('showQR');
+const qrBox = document.getElementById('qrbox');
+qrToggle.addEventListener('click', function(){
+  qrBox.style.display = qrBox.style.display === 'block' ? 'none' : 'block';
+  if (qrBox.dataset.made) return;
+  const url = location.href.split('#')[0].split('?')[0];
+  document.getElementById('qrurl').textContent = url;
+  if (typeof QRCode === 'undefined') {
+    document.getElementById('qrcode').innerHTML =
+      '<div style="color:#0d0208;padding:20px;font-size:12px">QR library failed to load.</div>';
+    return;
+  }
+  QRCode.toCanvas(document.createElement('canvas'), url, {
+    width: 240, margin: 1,
+    color: { dark: '#0d0208', light: '#ffffff' }
+  }, function(err, canvas){
+    if (err) return;
+    document.getElementById('qrcode').appendChild(canvas);
+    qrBox.dataset.made = '1';
+  });
+});
+
+/* ============ FORM SUBMIT ============ */
+const form = document.getElementById('form');
+const btn = document.getElementById('submitBtn');
+const overlay = document.getElementById('overlay');
+
+form.addEventListener('submit', async function(e){
+  e.preventDefault();
+  btn.disabled = true;
+  btn.textContent = '▶ Transmitting…';
+
+  const data = new FormData(form);
+  const now = new Date();
+  data.append('timestamp', now.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }));
+  data.append('date', now.toLocaleDateString('en-IN'));
+
+  // Always keep a local backup
+  try {
+    const backup = JSON.parse(localStorage.getItem('attendance_backup') || '[]');
+    backup.push(Object.fromEntries(data.entries()));
+    localStorage.setItem('attendance_backup', JSON.stringify(backup));
+  } catch(_){}
+
+  if (configured) {
+    try {
+      await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: data });
+    } catch(err){ console.warn('Send failed:', err); }
+  }
+
+  // Small delay so user sees the terminal "transmitting" state
+  setTimeout(() => {
+    overlay.classList.add('show');
+    setTimeout(() => {
+      overlay.classList.remove('show');
+      form.reset();
+      btn.disabled = false;
+      btn.textContent = '▶ Submit Attendance';
+    }, 2200);
+  }, 500);
+});
+
+/* ============ VIEW RECORDS ============ */
+let allRows = [];
+let loadedOnce = false;
+
+async function loadRecords(){
+  const content = document.getElementById('content');
+  if (loadedOnce) return;
+
+  content.innerHTML = '<div class="loader"><div class="spinner"></div><br>Decrypting records…</div>';
+
+  // Try Google Sheets first
+  if (configured) {
+    try {
+      const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        allRows = data;
+        loadedOnce = true;
+        renderRecords();
+        return;
+      }
+    } catch(err){
+      console.warn('Sheet fetch failed, falling back to local:', err);
+    }
+  }
+
+  // Fallback to localStorage
+  try {
+    const local = JSON.parse(localStorage.getItem('attendance_backup') || '[]');
+    allRows = local.map(r => ({
+      Name: r.name, Batch: r.batch, Time: r.time, Course: r.course,
+      Date: r.date, Timestamp: r.timestamp
+    }));
+  } catch(_){ allRows = []; }
+
+  loadedOnce = true;
+  renderRecords();
+}
+
+function renderRecords(){
+  const q = document.getElementById('search').value.toLowerCase().trim();
+  const course = document.getElementById('courseFilter').value;
+  const batch = document.getElementById('batchFilter').value;
+
+  let rows = allRows.filter(r => {
+    const nameOk = !q || String(r.Name || '').toLowerCase().includes(q);
+    const courseOk = !course || r.Course === course;
+    const batchOk = !batch || r.Batch === batch;
+    return nameOk && courseOk && batchOk;
+  });
+  rows = rows.slice().reverse();
+
+  const total = allRows.length;
+  const eh = allRows.filter(r => r.Course === 'Ethical Hacking').length;
+  const fx = allRows.filter(r => r.Course === 'Forex Trading').length;
+  const today = new Date().toLocaleDateString('en-IN');
+  const todayCount = allRows.filter(r => String(r.Date || '').includes(today)).length;
+
+  document.getElementById('stats').innerHTML = `
+    <div class="stat"><b>${total}</b><span>Total</span></div>
+    <div class="stat"><b>${todayCount}</b><span>Today</span></div>
+    <div class="stat"><b>${eh}</b><span>Hacking</span></div>
+    <div class="stat"><b>${fx}</b><span>Forex</span></div>
+  `;
+
+  const content = document.getElementById('content');
+
+  if (!rows.length) {
+    content.innerHTML = '<div class="empty">// No records found.<br>// Waiting for data input…</div>';
+    return;
+  }
+
+  let html = '<div class="tablewrap"><table><thead><tr>' +
+    '<th>#</th><th>Name</th><th>Batch</th><th>Time</th><th>Course</th><th>Date</th>' +
+    '</tr></thead><tbody>';
+
+  rows.forEach((r, i) => {
+    const tag = r.Course === 'Ethical Hacking'
+      ? '<span class="tag eh">ETHICAL HACKING</span>'
+      : '<span class="tag fx">FOREX TRADING</span>';
+    html += `<tr>
+      <td>${String(i+1).padStart(2,'0')}</td>
+      <td><b>${escapeHtml(r.Name || '—')}</b></td>
+      <td>${escapeHtml(r.Batch || '—')}</td>
+      <td>${escapeHtml(r.Time || '—')}</td>
+      <td>${tag}</td>
+      <td>${escapeHtml(String(r.Date || '—'))}</td>
+    </tr>`;
+  });
+
+  html += '</tbody></table></div>';
+  content.innerHTML = html;
+}
+
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+document.getElementById('search').addEventListener('input', renderRecords);
+document.getElementById('courseFilter').addEventListener('change', renderRecords);
+document.getElementById('batchFilter').addEventListener('change', renderRecords);
+
+/* ============ TYPING EFFECT ON TITLE (bonus) ============ */
+(function typeTitle(){
+  const el = document.querySelector('.brand h1');
+  const original = 'ATTENDANCE.SYS';
+  let i = 0;
+  el.textContent = '';
+  const t = setInterval(() => {
+    el.textContent += original[i];
+    i++;
+    if (i >= original.length) clearInterval(t);
+  }, 70);
+})();
+</script>
 </body>
 </html>
