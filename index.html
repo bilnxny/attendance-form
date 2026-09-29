@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#070a08">
-<title>VERDANT // Attendance System</title>
+<title>VERDANT // Learning Journal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -279,33 +279,6 @@ body{
 }
 .brand-text p .prompt{color:var(--green);font-weight:700}
 
-/* Instagram button (now used in footer) */
-.ig-btn{
-  display:inline-flex;align-items:center;gap:9px;
-  padding:11px 18px;
-  font-family:'Inter',sans-serif;
-  font-size:13px;font-weight:600;
-  color:#fff;
-  background:linear-gradient(135deg,#ff3b8b,#c13584,#833ab4);
-  text-decoration:none;
-  border-radius:11px;
-  transition:transform .25s,box-shadow .25s;
-  box-shadow:0 4px 16px rgba(255,59,139,.35);
-  position:relative;
-  overflow:hidden;
-  z-index:1;
-}
-.ig-btn::before{
-  content:"";
-  position:absolute;top:0;left:-100%;
-  width:100%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
-  transition:left .6s;
-}
-.ig-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(255,59,139,.55)}
-.ig-btn:hover::before{left:100%}
-.ig-btn svg{width:15px;height:15px;fill:currentColor}
-
 /* ============ TABS ============ */
 .tabs{
   display:flex;gap:6px;
@@ -352,7 +325,7 @@ body{
   to{opacity:1;transform:translateY(0)}
 }
 
-/* ============ CARD (conic border) ============ */
+/* ============ CARD ============ */
 .card{
   position:relative;
   border-radius:var(--radius-lg);
@@ -510,7 +483,7 @@ body{
 textarea.input{
   display:block;
   resize:vertical;
-  min-height:100px;
+  min-height:120px;
   line-height:1.6;
 }
 select.input{
@@ -532,7 +505,7 @@ select.input{
 }
 select.input option{background:var(--surface);color:var(--text)}
 
-/* ============ BUTTON (aggressive) ============ */
+/* ============ BUTTON ============ */
 .btn{
   position:relative;
   width:100%;
@@ -606,7 +579,7 @@ select.input option{background:var(--surface);color:var(--text)}
   to{transform:scale(4);opacity:0}
 }
 
-/* ============ STATS (3D Tilt) ============ */
+/* ============ STATS ============ */
 .stats{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
@@ -782,11 +755,10 @@ tbody td:first-child{
 }
 tbody td b{font-weight:600;color:var(--text)}
 
-/* learned-today cell */
 td.learn-cell{
   white-space:normal;
-  min-width:190px;
-  max-width:300px;
+  min-width:240px;
+  max-width:420px;
   color:var(--text-2);
   font-size:13px;
   line-height:1.5;
@@ -844,7 +816,7 @@ td.learn-cell{
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 
-/* ============ OVERLAY (shockwave) ============ */
+/* ============ OVERLAY ============ */
 .overlay{
   position:fixed;inset:0;z-index:8000;
   background:rgba(5,7,5,.9);
@@ -948,23 +920,6 @@ td.learn-cell{
   box-shadow:0 0 8px var(--green);
   animation:blink 2s ease-in-out infinite;
 }
-.overlay a{
-  display:inline-block;margin-top:24px;
-  font-size:13px;font-weight:600;
-  color:var(--green);text-decoration:none;
-  padding:11px 20px;
-  border:1.5px solid var(--green-line);
-  background:var(--green-soft);
-  border-radius:var(--radius-sm);
-  transition:.25s;
-}
-.overlay a:hover{
-  background:var(--green);
-  color:#070a08;
-  border-color:var(--green);
-  transform:translateY(-2px);
-  box-shadow:0 8px 22px rgba(0,255,136,.4);
-}
 
 /* ============ TOAST ============ */
 .toast{
@@ -1037,9 +992,6 @@ footer a::after{
 }
 footer a:hover{color:#fff}
 footer a:hover::after{transform:scaleX(1)}
-footer .ig-btn{color:#fff;margin-top:4px}
-footer .ig-btn::after{display:none}
-footer .ig-btn:hover{color:#fff}
 
 /* ============ SCROLL REVEAL ============ */
 .reveal{
@@ -1057,7 +1009,6 @@ footer .ig-btn:hover{color:#fff}
   .logo-mark svg{width:22px;height:22px}
   .brand-text h1{font-size:17px}
   .brand-text p{font-size:10px}
-  .ig-btn{padding:9px 14px;font-size:12px}
   .card{padding:22px 18px;border-radius:16px}
   .card-head{padding-bottom:18px;margin-bottom:22px}
   .card-head h2{font-size:15px}
@@ -1068,7 +1019,7 @@ footer .ig-btn:hover{color:#fff}
   .btn{padding:15px 18px;font-size:14px}
   table{font-size:12.5px}
   thead th,tbody td{padding:12px 12px}
-  td.learn-cell{min-width:150px;max-width:200px}
+  td.learn-cell{min-width:170px;max-width:240px}
   .overlay-inner{padding:32px 24px}
   .check-circle{width:72px;height:72px}
   .check-circle svg{width:34px;height:34px}
@@ -1092,30 +1043,26 @@ footer .ig-btn:hover{color:#fff}
 <!-- Progress -->
 <div class="progress-bar" id="progressBar"></div>
 
-<!-- Ticker -->
+<!-- Ticker (Instagram follow removed) -->
 <div class="ticker">
   <div class="ticker-track">
-    <span class="ticker-item hi">Attendance System Online</span>
-    <span class="ticker-item">Ethical Hacking · Forex Trading · Web Development</span>
+    <span class="ticker-item hi">Learning Journal Online</span>
+    <span class="ticker-item">Ethical Hacking · Forex Trading</span>
     <span class="ticker-item">Real-time Cloud Sync</span>
-    <span class="ticker-item hi">Batches 01 — 05 Active</span>
+    <span class="ticker-item hi">Session 2026</span>
     <span class="ticker-item">Secure Encrypted Channel</span>
-    <span class="ticker-item">Session 2026</span>
-    <span class="ticker-item hi">Follow @bilxnvyy</span>
     <!-- duplicate for loop -->
-    <span class="ticker-item hi">Attendance System Online</span>
-    <span class="ticker-item">Ethical Hacking · Forex Trading · Web Development</span>
+    <span class="ticker-item hi">Learning Journal Online</span>
+    <span class="ticker-item">Ethical Hacking · Forex Trading</span>
     <span class="ticker-item">Real-time Cloud Sync</span>
-    <span class="ticker-item hi">Batches 01 — 05 Active</span>
+    <span class="ticker-item hi">Session 2026</span>
     <span class="ticker-item">Secure Encrypted Channel</span>
-    <span class="ticker-item">Session 2026</span>
-    <span class="ticker-item hi">Follow @bilxnvyy</span>
   </div>
 </div>
 
 <div class="app">
 
-  <!-- HEADER (Instagram button removed) -->
+  <!-- HEADER -->
   <div class="header reveal">
     <div class="brand">
       <div class="logo-mark">
@@ -1123,14 +1070,14 @@ footer .ig-btn:hover{color:#fff}
       </div>
       <div class="brand-text">
         <h1>VERDANT<span class="dot"></span></h1>
-        <p><span class="prompt">~/</span>attendance.system <span style="opacity:.5">v3.0</span></p>
+        <p><span class="prompt">~/</span>learning.journal <span style="opacity:.5">v3.0</span></p>
       </div>
     </div>
   </div>
 
   <div class="tabs reveal">
-    <button class="tab active" data-tab="form"><span class="num">01</span> Mark Attendance</button>
-    <button class="tab" data-tab="view"><span class="num">02</span> View Records</button>
+    <button class="tab active" data-tab="form"><span class="num">01</span> Write Entry</button>
+    <button class="tab" data-tab="view"><span class="num">02</span> View Journal</button>
   </div>
 
   <!-- FORM -->
@@ -1139,8 +1086,8 @@ footer .ig-btn:hover{color:#fff}
       <div class="warn" id="warnBox"></div>
 
       <div class="card-head">
-        <h2>Mark Your Attendance <span class="badge">Form</span></h2>
-        <span class="status"><span class="dot"></span>System Online</span>
+        <h2>New Journal Entry <span class="badge">Journal</span></h2>
+        <span class="status"><span class="dot"></span>Journal Online</span>
       </div>
 
       <form id="form" autocomplete="off">
@@ -1154,19 +1101,7 @@ footer .ig-btn:hover{color:#fff}
         </div>
 
         <div class="field">
-          <label for="batch"><span class="idx">02</span>Batch <span class="req">*</span></label>
-          <select id="batch" name="batch" class="input" required>
-            <option value="" disabled selected>Select your batch</option>
-            <option>Batch 1</option>
-            <option>Batch 2</option>
-            <option>Batch 3</option>
-            <option>Batch 4</option>
-            <option>Batch 5</option>
-          </select>
-        </div>
-
-        <div class="field">
-          <label for="time"><span class="idx">03</span>Time Slot <span class="req">*</span></label>
+          <label for="time"><span class="idx">02</span>Time Slot <span class="req">*</span></label>
           <select id="time" name="time" class="input" required>
             <option value="" disabled selected>Select your time slot</option>
             <option>08:00 AM - 10:00 AM</option>
@@ -1178,19 +1113,17 @@ footer .ig-btn:hover{color:#fff}
         </div>
 
         <div class="field">
-          <label for="course"><span class="idx">04</span>Course <span class="req">*</span></label>
+          <label for="course"><span class="idx">03</span>Course <span class="req">*</span></label>
           <select id="course" name="course" class="input" required>
             <option value="" disabled selected>Select your course</option>
             <option>Ethical Hacking</option>
             <option>Forex Trading</option>
-            <option>Web Development</option>
           </select>
         </div>
 
-        <!-- NEW FIELD -->
         <div class="field">
           <label for="learn">
-            <span class="idx">05</span>
+            <span class="idx">04</span>
             What You Learned Today <span class="req">*</span>
             <span class="count" id="learnCount">0/200</span>
           </label>
@@ -1198,7 +1131,7 @@ footer .ig-btn:hover{color:#fff}
         </div>
 
         <button type="submit" class="btn" id="submitBtn">
-          <span>Submit Attendance</span>
+          <span>Submit Journal Entry</span>
           <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </form>
@@ -1209,7 +1142,7 @@ footer .ig-btn:hover{color:#fff}
   <section class="panel" id="panel-view">
     <div class="card reveal">
       <div class="card-head">
-        <h2>Attendance Records <span class="badge">Live</span></h2>
+        <h2>Journal Entries <span class="badge">Live</span></h2>
         <span class="status"><span class="dot"></span>Synced with Cloud</span>
       </div>
 
@@ -1238,34 +1171,21 @@ footer .ig-btn:hover{color:#fff}
           <option value="">All Courses</option>
           <option>Ethical Hacking</option>
           <option>Forex Trading</option>
-          <option>Web Development</option>
-        </select>
-        <select id="batchFilter" class="filter-select">
-          <option value="">All Batches</option>
-          <option>Batch 1</option>
-          <option>Batch 2</option>
-          <option>Batch 3</option>
-          <option>Batch 4</option>
-          <option>Batch 5</option>
         </select>
       </div>
 
       <div class="table-wrap">
         <div class="table-scroll" id="tableScroll">
-          <div class="loader"><div class="spinner"></div>Loading records...</div>
+          <div class="loader"><div class="spinner"></div>Loading journal...</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER (Instagram button moved here, last) -->
+  <!-- FOOTER (Instagram follow button removed) -->
   <footer class="reveal">
-    <div class="status"><span class="dot"></span>System Operational · Encrypted Channel</div>
+    <div class="status"><span class="dot"></span>System Operational · Encrypted Journal</div>
     <div>Crafted by <a href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">@bilxnvyy</a></div>
-    <a class="ig-btn" href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.2 8.8 2.2 12 2.2zm0 3.24A6.56 6.56 0 105.44 12 6.56 6.56 0 0012 5.44zm0 10.82A4.26 4.26 0 1116.26 12 4.26 4.26 0 0112 16.26zm6.85-11.1a1.53 1.53 0 11-1.53-1.53 1.53 1.53 0 011.53 1.53z"/></svg>
-      Follow @bilxnvyy
-    </a>
   </footer>
 </div>
 
@@ -1274,10 +1194,9 @@ footer .ig-btn:hover{color:#fff}
     <div class="check-circle">
       <svg viewBox="0 0 60 60"><path d="M14 31 L26 43 L46 20"/></svg>
     </div>
-    <h2>Attendance Recorded</h2>
-    <p>Your entry has been submitted successfully and synced to the cloud.</p>
-    <div class="meta"><span class="dot"></span>Saved to Google Sheet</div>
-    <a href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">Follow @bilxnvyy</a>
+    <h2>Journal Entry Saved</h2>
+    <p>Your entry has been recorded and synced to the cloud.</p>
+    <div class="meta"><span class="dot"></span>Saved to Journal</div>
   </div>
 </div>
 
@@ -1324,7 +1243,7 @@ const CONFIGURED = SCRIPT_URL && SCRIPT_URL.startsWith("http") && !SCRIPT_URL.in
     spot.style.transform = `translate(${sx}px,${sy}px) translate(-50%,-50%)`;
     requestAnimationFrame(loop);
   })();
-  const hoverSel = 'a,button,input,select,textarea,.tab,.stat,.ig-btn,.btn';
+  const hoverSel = 'a,button,input,select,textarea,.tab,.stat,.btn';
   document.querySelectorAll(hoverSel).forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
@@ -1415,7 +1334,7 @@ nameInput.addEventListener('input', () => {
   nameCount.classList.toggle('full', n >= 40);
 });
 
-/* ============ LEARNED-TODAY COUNTER ============ */
+/* ============ LEARNED COUNTER ============ */
 const learnInput = document.getElementById('learn');
 const learnCount = document.getElementById('learnCount');
 learnInput.addEventListener('input', () => {
@@ -1506,7 +1425,7 @@ form.addEventListener('submit', async e => {
       learnCount.textContent = '0/200';
       learnCount.classList.remove('full');
       btn.disabled = false;
-      btn.innerHTML = '<span>Submit Attendance</span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      btn.innerHTML = '<span>Submit Journal Entry</span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
     }, 2600);
   }, 400);
 });
@@ -1518,14 +1437,21 @@ let loaded = false;
 async function loadRecords(){
   if (loaded) return;
   const wrap = document.getElementById('tableScroll');
-  wrap.innerHTML = '<div class="loader"><div class="spinner"></div>Loading records...</div>';
+  wrap.innerHTML = '<div class="loader"><div class="spinner"></div>Loading journal...</div>';
 
   if (CONFIGURED) {
     try {
       const res = await fetch(SCRIPT_URL + '?t=' + Date.now());
       const data = await res.json();
       if (Array.isArray(data)) {
-        allRows = data;
+        allRows = data.map(r => ({
+          Name: r.Name || r.name || '',
+          Time: r.Time || r.time || '',
+          Course: r.Course || r.course || '',
+          Learn: r.Learn || r.learn || r['What You Learned Today'] || '',
+          Date: r.Date || r.date || '',
+          Timestamp: r.Timestamp || r.timestamp || ''
+        }));
         loaded = true;
         render();
         return;
@@ -1536,8 +1462,12 @@ async function loadRecords(){
   try {
     const local = JSON.parse(localStorage.getItem('attendance_backup') || '[]');
     allRows = local.map(r => ({
-      Name: r.name, Batch: r.batch, Time: r.time, Course: r.course,
-      Learn: r.learn, Date: r.date, Timestamp: r.timestamp
+      Name: r.name,
+      Time: r.time,
+      Course: r.course,
+      Learn: r.learn,
+      Date: r.date,
+      Timestamp: r.timestamp
     }));
   } catch(_){ allRows = []; }
 
@@ -1561,13 +1491,11 @@ function animateCount(el, target){
 function render(){
   const q = document.getElementById('search').value.toLowerCase().trim();
   const course = document.getElementById('courseFilter').value;
-  const batch = document.getElementById('batchFilter').value;
 
   let rows = allRows.filter(r => {
     const n = String(r.Name || '').toLowerCase();
     return (!q || n.includes(q)) &&
-           (!course || r.Course === course) &&
-           (!batch || r.Batch === batch);
+           (!course || r.Course === course);
   }).slice().reverse();
 
   const total = allRows.length;
@@ -1589,13 +1517,13 @@ function render(){
         <div class="empty-icon">
           <svg viewBox="0 0 24 24"><path d="M3 7h18M3 12h18M3 17h12"/></svg>
         </div>
-        No records found yet. Submit your first attendance to see it here.
+        No journal entries yet. Write your first entry to see it here.
       </div>`;
     return;
   }
 
   let html = '<table><thead><tr>' +
-    '<th>#</th><th>Name</th><th>Batch</th><th>Time Slot</th><th>Course</th><th>Learned Today</th><th>Date</th>' +
+    '<th>#</th><th>Name</th><th>Time Slot</th><th>Course</th><th>Learned Today</th><th>Date</th>' +
     '</tr></thead><tbody>';
 
   rows.forEach((r, i) => {
@@ -1604,12 +1532,11 @@ function render(){
     else if (r.Course === 'Forex Trading') tag = '<span class="tag fx">Forex Trading</span>';
     else tag = '<span class="tag wd">Web Development</span>';
 
-    const learned = r.Learn || r.Learned || r['What You Learned Today'] || r.learn || '—';
+    const learned = r.Learn || '—';
 
     html += `<tr style="animation-delay:${Math.min(i * 0.03, 0.6)}s">
       <td>${String(i + 1).padStart(2, '0')}</td>
       <td><b>${esc(r.Name || '—')}</b></td>
-      <td>${esc(r.Batch || '—')}</td>
       <td>${esc(r.Time || '—')}</td>
       <td>${tag}</td>
       <td class="learn-cell">${esc(learned)}</td>
@@ -1632,7 +1559,6 @@ document.getElementById('search').addEventListener('input', () => {
   searchTimer = setTimeout(render, 150);
 });
 document.getElementById('courseFilter').addEventListener('change', render);
-document.getElementById('batchFilter').addEventListener('change', render);
 </script>
 </body>
 </html>
