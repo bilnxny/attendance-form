@@ -10,29 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#070a08;
-  --bg-2:#0a0f0c;
-  --surface:#0f1611;
-  --surface-2:#141d17;
-  --border:#1c2820;
-  --border-2:#243528;
-  --green:#00ff88;
-  --green-2:#00d975;
-  --green-3:#00a85c;
-  --green-glow:rgba(0,255,136,.5);
-  --green-soft:rgba(0,255,136,.08);
-  --green-line:rgba(0,255,136,.22);
-  --text:#eaf5ee;
-  --text-2:#a5b8ac;
-  --text-3:#6d8175;
-  --text-4:#4a5a4f;
-  --blue:#7dd3fc;
-  --purple:#c4b5fd;
-  --radius:14px;
-  --radius-sm:10px;
-  --radius-lg:20px;
-  --shadow:0 4px 20px rgba(0,0,0,.4);
-  --shadow-lg:0 20px 60px rgba(0,0,0,.55);
+  --bg:#070a08;--bg-2:#0a0f0c;--surface:#0f1611;--surface-2:#141d17;
+  --border:#1c2820;--border-2:#243528;
+  --green:#00ff88;--green-2:#00d975;--green-3:#00a85c;
+  --green-glow:rgba(0,255,136,.5);--green-soft:rgba(0,255,136,.08);--green-line:rgba(0,255,136,.22);
+  --text:#eaf5ee;--text-2:#a5b8ac;--text-3:#6d8175;--text-4:#4a5a4f;
+  --blue:#7dd3fc;--purple:#c4b5fd;
+  --radius:14px;--radius-sm:10px;--radius-lg:20px;
+  --shadow:0 4px 20px rgba(0,0,0,.4);--shadow-lg:0 20px 60px rgba(0,0,0,.55);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -46,16 +31,13 @@ body{
 ::selection{background:var(--green);color:#070a08}
 
 /* ============ BACKGROUND ============ */
-.bg-grid{
-  position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    linear-gradient(rgba(0,255,136,.028) 1px,transparent 1px),
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(0,255,136,.028) 1px,transparent 1px),
     linear-gradient(90deg,rgba(0,255,136,.028) 1px,transparent 1px);
   background-size:48px 48px;
   mask-image:radial-gradient(ellipse at 50% 30%,#000 15%,transparent 75%);
   -webkit-mask-image:radial-gradient(ellipse at 50% 30%,#000 15%,transparent 75%);
-  animation:gridDrift 20s linear infinite;
-}
+  animation:gridDrift 20s linear infinite}
 @keyframes gridDrift{to{background-position:48px 48px}}
 .bg-orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.35}
 .orb-1{width:500px;height:500px;top:-200px;left:-150px;
@@ -158,6 +140,194 @@ body{
 .panel.active{display:block;animation:panelIn .5s cubic-bezier(.22,1,.36,1)}
 @keyframes panelIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 
+/* ============================================================
+   FRONT-PAGE OVERVIEW (TryHackMe style)
+   ============================================================ */
+.overview{
+  position:relative;
+  border-radius:var(--radius-lg);
+  padding:24px 26px;
+  background:linear-gradient(180deg,var(--surface),var(--bg-2));
+  border:1px solid var(--border);
+  margin-bottom:22px;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+}
+.overview::before{
+  content:"";position:absolute;top:0;left:20px;right:20px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--green),transparent);
+  opacity:.5;
+}
+.overview::after{
+  content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(0,255,136,.05),transparent);
+  animation:headerShine 9s ease-in-out infinite;
+  pointer-events:none;
+}
+.ov-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;margin-bottom:20px;flex-wrap:wrap;
+  position:relative;z-index:1;
+}
+.ov-head h3{
+  font-size:14px;font-weight:700;letter-spacing:-.2px;
+  color:var(--text);display:flex;align-items:center;gap:10px;
+}
+.ov-head h3 svg{
+  width:16px;height:16px;stroke:var(--green);stroke-width:2.4;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 0 6px var(--green-glow));
+}
+.ov-head .live{
+  display:inline-flex;align-items:center;gap:7px;
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--text-3);letter-spacing:.5px;text-transform:uppercase;
+}
+.ov-head .live .dot{
+  width:6px;height:6px;background:var(--green);border-radius:50%;
+  box-shadow:0 0 8px var(--green);animation:pulseDot 1.6s ease-in-out infinite;
+}
+@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
+
+.ov-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  position:relative;z-index:1;
+}
+@media(max-width:640px){.ov-grid{grid-template-columns:1fr}}
+
+.ov-item{
+  padding:18px 18px 16px;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  position:relative;
+  overflow:hidden;
+  transition:border-color .3s,transform .3s,box-shadow .3s;
+}
+.ov-item::before{
+  content:"";position:absolute;top:0;left:0;
+  width:3px;height:100%;
+  background:linear-gradient(180deg,var(--green),var(--green-3));
+  box-shadow:0 0 12px var(--green-glow);
+}
+.ov-item.fx::before{
+  background:linear-gradient(180deg,var(--blue),#38bdf8);
+  box-shadow:0 0 12px rgba(125,211,252,.5);
+}
+.ov-item:hover{
+  border-color:var(--green-line);
+  transform:translateY(-2px);
+  box-shadow:0 8px 26px rgba(0,255,136,.12);
+}
+.ov-item.fx:hover{
+  border-color:rgba(125,211,252,.3);
+  box-shadow:0 8px 26px rgba(125,211,252,.12);
+}
+
+.ov-row-top{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+
+/* Rank badge */
+.ov-badge{
+  width:46px;height:46px;flex-shrink:0;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--green);
+}
+.ov-badge svg{
+  position:absolute;inset:0;width:100%;height:100%;
+  fill:rgba(0,255,136,.08);
+  stroke:var(--green);stroke-width:1.6;
+  stroke-linejoin:round;
+  filter:drop-shadow(0 0 8px var(--green-glow));
+}
+.ov-badge .lvl{
+  position:relative;z-index:1;
+  font-family:'JetBrains Mono',monospace;
+  font-size:15px;font-weight:800;
+  color:var(--green);
+  text-shadow:0 0 10px var(--green-glow);
+}
+.ov-item.fx .ov-badge{color:var(--blue)}
+.ov-item.fx .ov-badge svg{
+  fill:rgba(125,211,252,.08);
+  stroke:var(--blue);
+  filter:drop-shadow(0 0 8px rgba(125,211,252,.5));
+}
+.ov-item.fx .ov-badge .lvl{
+  color:var(--blue);
+  text-shadow:0 0 10px rgba(125,211,252,.5);
+}
+
+.ov-title{flex:1;min-width:0}
+.ov-course{
+  font-size:14px;font-weight:700;color:var(--text);
+  letter-spacing:-.2px;line-height:1.2;
+}
+.ov-rank-name{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;font-weight:600;
+  color:var(--text-3);
+  letter-spacing:.7px;text-transform:uppercase;
+  margin-top:3px;
+}
+.ov-pct{
+  font-family:'JetBrains Mono',monospace;
+  font-size:22px;font-weight:800;
+  color:var(--text);letter-spacing:-.8px;
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+  flex-shrink:0;
+}
+.ov-pct .u{font-size:12px;font-weight:600;color:var(--text-3);margin-left:1px;letter-spacing:0}
+
+/* Progress bar */
+.ov-bar{
+  height:8px;border-radius:6px;
+  background:var(--surface-2);
+  border:1px solid var(--border);
+  overflow:hidden;position:relative;
+  margin-bottom:12px;
+}
+.ov-fill{
+  height:100%;width:0;
+  border-radius:6px;
+  background:linear-gradient(90deg,var(--green),var(--green-2));
+  box-shadow:0 0 12px var(--green-glow),inset 0 1px 0 rgba(255,255,255,.3);
+  transition:width 1.4s cubic-bezier(.22,1,.36,1);
+  position:relative;
+  overflow:hidden;
+}
+.ov-fill::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.4),transparent);
+  animation:ovShine 2.5s ease-in-out infinite;
+}
+@keyframes ovShine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.ov-item.fx .ov-fill{
+  background:linear-gradient(90deg,var(--blue),#38bdf8);
+  box-shadow:0 0 12px rgba(125,211,252,.5),inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+.ov-meta{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;color:var(--text-3);letter-spacing:.4px;
+}
+.ov-meta .m{display:inline-flex;align-items:center;gap:6px}
+.ov-meta .m svg{
+  width:11px;height:11px;stroke:currentColor;stroke-width:2.2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+  opacity:.75;
+}
+.ov-meta .m b{color:var(--text-2);font-weight:700}
+
+.ov-empty{
+  padding:24px;text-align:center;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text-3);letter-spacing:.4px;
+}
+
 /* ============ CARD ============ */
 .card{position:relative;border-radius:var(--radius-lg);padding:30px;
   background:linear-gradient(180deg,var(--surface),var(--bg-2));overflow:hidden;box-shadow:var(--shadow)}
@@ -187,7 +357,6 @@ body{
   font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);letter-spacing:.5px}
 .card-head .status .dot{width:7px;height:7px;background:var(--green);border-radius:50%;
   box-shadow:0 0 10px var(--green);animation:pulseDot 1.6s ease-in-out infinite}
-@keyframes pulseDot{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.7}}
 
 /* ============ WARN ============ */
 .warn{display:none;padding:13px 17px;background:rgba(255,184,0,.06);
@@ -331,10 +500,6 @@ td.learn-cell{white-space:normal;min-width:240px;max-width:420px;color:var(--tex
   color:var(--text-2);background:var(--bg);border:1.5px solid var(--border-2);
   border-radius:var(--radius-sm);cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);
   display:inline-flex;align-items:center;gap:9px;position:relative;overflow:hidden}
-.course-tab::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;
-  background:linear-gradient(135deg,var(--green),var(--green-2));opacity:0;transition:opacity .3s;
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
-  -webkit-mask-composite:xor;mask-composite:exclude}
 .course-tab:hover{color:var(--text);border-color:var(--green-line);transform:translateY(-2px)}
 .course-tab.active{color:#070a08;background:linear-gradient(180deg,var(--green),var(--green-2));
   border-color:transparent;box-shadow:0 6px 22px rgba(0,255,136,.35),inset 0 1px 0 rgba(255,255,255,.4)}
@@ -396,7 +561,6 @@ td.learn-cell{white-space:normal;min-width:240px;max-width:420px;color:var(--tex
 .dash-section-head .meta{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text-3);
   letter-spacing:.4px}
 
-/* Topics grid */
 .topics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
 .topic-chip{padding:13px 15px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);
   display:flex;align-items:center;gap:11px;font-size:13px;color:var(--text-3);
@@ -421,7 +585,6 @@ td.learn-cell{white-space:normal;min-width:240px;max-width:420px;color:var(--tex
   box-shadow:0 0 12px rgba(125,211,252,.5)}
 .topic-chip.fx.learned::after{background:linear-gradient(90deg,transparent,rgba(125,211,252,.15),transparent)}
 
-/* Calendar */
 .calendar-wrap{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);
   padding:20px;overflow:hidden;position:relative}
 .calendar-wrap::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;
@@ -554,6 +717,11 @@ footer a:hover::after{transform:scaleX(1)}
   .topics-grid{grid-template-columns:1fr}
   .calendar-wrap{padding:14px}
   .cal-cell{width:12px;height:12px}
+  .overview{padding:18px 16px;border-radius:16px}
+  .ov-item{padding:16px 14px 14px}
+  .ov-badge{width:40px;height:40px}
+  .ov-badge .lvl{font-size:13px}
+  .ov-pct{font-size:20px}
 }
 </style>
 </head>
@@ -623,6 +791,21 @@ footer a:hover::after{transform:scaleX(1)}
 
   <!-- FORM -->
   <section class="panel active" id="panel-form">
+
+    <!-- FRONT-PAGE PROGRESS OVERVIEW (TryHackMe style) -->
+    <div class="overview reveal" id="overviewCard">
+      <div class="ov-head">
+        <h3>
+          <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          Your Progress
+        </h3>
+        <span class="live"><span class="dot"></span>Live · Auto-synced</span>
+      </div>
+      <div class="ov-grid" id="overviewRows">
+        <div class="ov-empty">Loading progress…</div>
+      </div>
+    </div>
+
     <div class="card reveal">
       <div class="warn" id="warnBox"></div>
 
@@ -838,50 +1021,64 @@ const CONFIGURED = SCRIPT_URL && SCRIPT_URL.startsWith("http") && !SCRIPT_URL.in
 /* ============ CURRICULUM ============ */
 const CURRICULUM = {
   'Ethical Hacking': [
-    { name:'Footprinting & Recon',        keys:['footprint','recon'] },
-    { name:'Network Scanning',            keys:['scan','nmap','enumeration'] },
-    { name:'Vulnerability Analysis',      keys:['vulnerab','vuln'] },
-    { name:'System Hacking',              keys:['system hack','privilege','privesc'] },
-    { name:'Malware Analysis',            keys:['malware','virus','trojan','worm','ransomware'] },
-    { name:'Sniffing & Spoofing',         keys:['sniff','spoof','wireshark'] },
-    { name:'Social Engineering',          keys:['social engineer','phishing'] },
-    { name:'Denial of Service',           keys:['denial of service','dos attack','ddos'] },
-    { name:'Session Hijacking',           keys:['session hijack','cookie'] },
-    { name:'Web Server Hacking',          keys:['web server','apache','nginx','iis'] },
-    { name:'SQL Injection',               keys:['sql inject','sqli','sqlmap'] },
-    { name:'XSS & CSRF',                  keys:['xss','cross site','csrf'] },
-    { name:'Cryptography',                keys:['crypt','cipher','encrypt','hash','rsa','aes'] },
-    { name:'Wireless Hacking',            keys:['wireless','wifi','wpa','wep'] },
-    { name:'Mobile Hacking',              keys:['mobile hack','android','ios','apk'] },
-    { name:'Cloud Security',              keys:['cloud','aws','azure','gcp'] },
-    { name:'Buffer Overflow',             keys:['buffer overflow','overflow','bof'] },
-    { name:'Password Cracking',           keys:['password crack','brute force','hashcat','john','hydra'] },
-    { name:'Metasploit',                  keys:['metasploit','msf','meterpreter'] },
-    { name:'Burp Suite',                  keys:['burp','burpsuite','intercept'] }
+    { name:'Footprinting & Recon',   keys:['footprint','recon'] },
+    { name:'Network Scanning',       keys:['scan','nmap','enumeration'] },
+    { name:'Vulnerability Analysis', keys:['vulnerab','vuln'] },
+    { name:'System Hacking',         keys:['system hack','privilege','privesc'] },
+    { name:'Malware Analysis',       keys:['malware','virus','trojan','worm','ransomware'] },
+    { name:'Sniffing & Spoofing',    keys:['sniff','spoof','wireshark'] },
+    { name:'Social Engineering',     keys:['social engineer','phishing'] },
+    { name:'Denial of Service',      keys:['denial of service','dos attack','ddos'] },
+    { name:'Session Hijacking',      keys:['session hijack','cookie'] },
+    { name:'Web Server Hacking',     keys:['web server','apache','nginx','iis'] },
+    { name:'SQL Injection',          keys:['sql inject','sqli','sqlmap'] },
+    { name:'XSS & CSRF',             keys:['xss','cross site','csrf'] },
+    { name:'Cryptography',           keys:['crypt','cipher','encrypt','hash','rsa','aes'] },
+    { name:'Wireless Hacking',       keys:['wireless','wifi','wpa','wep'] },
+    { name:'Mobile Hacking',         keys:['mobile hack','android','ios','apk'] },
+    { name:'Cloud Security',         keys:['cloud','aws','azure','gcp'] },
+    { name:'Buffer Overflow',        keys:['buffer overflow','overflow','bof'] },
+    { name:'Password Cracking',      keys:['password crack','brute force','hashcat','john','hydra'] },
+    { name:'Metasploit',             keys:['metasploit','msf','meterpreter'] },
+    { name:'Burp Suite',             keys:['burp','burpsuite','intercept'] }
   ],
   'Forex Trading': [
-    { name:'Market Basics',               keys:['market basics','forex basics','introduction','intro'] },
-    { name:'Currency Pairs',              keys:['currency pair','majors','minors','eur/usd','usd/jpy','gbp/usd'] },
-    { name:'Pips & Lots',                 keys:['pip','lot size','micro lot','mini lot'] },
-    { name:'Technical Analysis',          keys:['technical analysis'] },
-    { name:'Fundamental Analysis',        keys:['fundamental','news trading','economic','interest rate'] },
-    { name:'Candlestick Patterns',        keys:['candle','candlestick','doji','hammer','engulf'] },
-    { name:'Support & Resistance',        keys:['support','resistance'] },
-    { name:'Trend Lines',                 keys:['trend line','trendline','trend'] },
-    { name:'Moving Averages',             keys:['moving average','ema','sma'] },
-    { name:'RSI & Indicators',            keys:['rsi','indicator','macd','stochastic','bollinger'] },
-    { name:'Risk Management',             keys:['risk management','risk reward','risk-reward'] },
-    { name:'Leverage & Margin',           keys:['leverage','margin'] },
-    { name:'Stop Loss & Take Profit',     keys:['stop loss','take profit'] },
-    { name:'Trading Psychology',          keys:['psychology','emotion','discipline'] },
-    { name:'Order Types',                 keys:['order type','market order','limit order','pending order'] },
-    { name:'Chart Patterns',              keys:['chart pattern','head and shoulders','triangle','flag pattern'] },
-    { name:'Fibonacci',                   keys:['fibonacci','fib'] },
-    { name:'Divergence',                  keys:['divergen'] },
-    { name:'Scalping',                    keys:['scalping','scalp'] },
-    { name:'Swing Trading',               keys:['swing trad','swing'] }
+    { name:'Market Basics',          keys:['market basics','forex basics','introduction','intro'] },
+    { name:'Currency Pairs',         keys:['currency pair','majors','minors','eur/usd','usd/jpy','gbp/usd'] },
+    { name:'Pips & Lots',            keys:['pip','lot size','micro lot','mini lot'] },
+    { name:'Technical Analysis',     keys:['technical analysis'] },
+    { name:'Fundamental Analysis',   keys:['fundamental','news trading','economic','interest rate'] },
+    { name:'Candlestick Patterns',   keys:['candle','candlestick','doji','hammer','engulf'] },
+    { name:'Support & Resistance',   keys:['support','resistance'] },
+    { name:'Trend Lines',            keys:['trend line','trendline','trend'] },
+    { name:'Moving Averages',        keys:['moving average','ema','sma'] },
+    { name:'RSI & Indicators',       keys:['rsi','indicator','macd','stochastic','bollinger'] },
+    { name:'Risk Management',        keys:['risk management','risk reward','risk-reward'] },
+    { name:'Leverage & Margin',      keys:['leverage','margin'] },
+    { name:'Stop Loss & Take Profit',keys:['stop loss','take profit'] },
+    { name:'Trading Psychology',     keys:['psychology','emotion','discipline'] },
+    { name:'Order Types',            keys:['order type','market order','limit order','pending order'] },
+    { name:'Chart Patterns',         keys:['chart pattern','head and shoulders','triangle','flag pattern'] },
+    { name:'Fibonacci',              keys:['fibonacci','fib'] },
+    { name:'Divergence',             keys:['divergen'] },
+    { name:'Scalping',               keys:['scalping','scalp'] },
+    { name:'Swing Trading',          keys:['swing trad','swing'] }
   ]
 };
+
+/* ============ RANKS (TryHackMe style) ============ */
+const RANKS = [
+  { min:0,  name:'Novice',       lvl:1 },
+  { min:20, name:'Apprentice',   lvl:2 },
+  { min:40, name:'Practitioner', lvl:3 },
+  { min:60, name:'Expert',       lvl:4 },
+  { min:80, name:'Master',       lvl:5 }
+];
+function rankFor(pct){
+  let r = RANKS[0];
+  for (const x of RANKS){ if (pct >= x.min) r = x; }
+  return r;
+}
 
 /* ============ PAGE LOAD PROGRESS ============ */
 (function(){
@@ -917,12 +1114,11 @@ const CURRICULUM = {
     spot.style.transform = `translate(${sx}px,${sy}px) translate(-50%,-50%)`;
     requestAnimationFrame(loop);
   })();
-  const hoverSel = 'a,button,input,select,textarea,.tab,.stat,.btn,.topic-chip,.cal-cell,.course-tab,.dash-stat';
+  const hoverSel = 'a,button,input,select,textarea,.tab,.stat,.btn,.topic-chip,.cal-cell,.course-tab,.dash-stat,.ov-item';
   document.querySelectorAll(hoverSel).forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
   });
-  // Re-attach for dynamically added nodes
   window.__attachHover = function(root){
     (root || document).querySelectorAll(hoverSel).forEach(el => {
       if (el.__hoverAttached) return;
@@ -964,7 +1160,7 @@ document.querySelectorAll('.tab').forEach(btn => {
   } else { els.forEach(el => el.classList.add('in')); }
 })();
 
-/* ============ TEXT SCRAMBLE (brand title) ============ */
+/* ============ TEXT SCRAMBLE ============ */
 (function(){
   const el = document.querySelector('.brand-text h1');
   if (!el) return;
@@ -1082,7 +1278,13 @@ form.addEventListener('submit', async e => {
 
   setTimeout(() => {
     overlay.classList.add('show');
-    loaded = false;
+    // Refresh from local backup (which now contains the new entry)
+    allRows = loadLocal();
+    loaded = true;
+    render();
+    renderOverview();
+    renderDashboard();
+
     setTimeout(() => {
       overlay.classList.remove('show');
       form.reset();
@@ -1198,7 +1400,6 @@ function formatTime(v){
   if (iso) return `${iso[1]}:${iso[2]}`;
   return s;
 }
-
 function parseDate(s){
   if (!s) return null;
   s = String(s).trim();
@@ -1297,7 +1498,88 @@ document.getElementById('search').addEventListener('input', () => {
 document.getElementById('courseFilter').addEventListener('change', render);
 
 /* ============================================================
-   DASHBOARD
+   FRONT-PAGE OVERVIEW (TryHackMe style)
+   ============================================================ */
+function computeCourseStats(course){
+  const curriculum = CURRICULUM[course] || [];
+  const entries = allRows.filter(r => String(r.Course || '').trim() === course);
+  const learnedSet = detectTopics(entries, course);
+  const pct = curriculum.length ? Math.round((learnedSet.size / curriculum.length) * 100) : 0;
+  const rank = rankFor(pct);
+
+  // streak
+  const daySet = new Set();
+  entries.forEach(e => {
+    const d = parseDate(e.Date) || parseDate(e.Timestamp);
+    if (d) daySet.add(d.toISOString().slice(0,10));
+  });
+  const sortedDays = [...daySet].sort();
+  let streak = 0;
+  if (sortedDays.length){
+    const todayKey = new Date().toISOString().slice(0,10);
+    const yKey = new Date(Date.now() - 864e5).toISOString().slice(0,10);
+    let cursor = null;
+    if (sortedDays.includes(todayKey)) cursor = new Date();
+    else if (sortedDays.includes(yKey)) cursor = new Date(Date.now() - 864e5);
+    while (cursor){
+      const key = cursor.toISOString().slice(0,10);
+      if (daySet.has(key)){ streak++; cursor = new Date(cursor.getTime() - 864e5); }
+      else break;
+    }
+  }
+
+  return { pct, rank, learnedSet, entries, streak, totalTopics: curriculum.length };
+}
+
+function renderOverview(){
+  const wrap = document.getElementById('overviewRows');
+  if (!wrap) return;
+
+  const html = Object.keys(CURRICULUM).map(course => {
+    const s = computeCourseStats(course);
+    const isFx = course === 'Forex Trading';
+    return `
+      <div class="ov-item ${isFx ? 'fx' : ''}">
+        <div class="ov-row-top">
+          <div class="ov-badge">
+            <svg viewBox="0 0 24 24"><path d="M12 2L4 6v6c0 5 3.5 9.5 8 10 4.5-.5 8-5 8-10V6l-8-4z"/></svg>
+            <span class="lvl">${s.rank.lvl}</span>
+          </div>
+          <div class="ov-title">
+            <div class="ov-course">${esc(course)}</div>
+            <div class="ov-rank-name">${s.rank.name}</div>
+          </div>
+          <div class="ov-pct">${s.pct}<span class="u">%</span></div>
+        </div>
+        <div class="ov-bar">
+          <div class="ov-fill" data-pct="${s.pct}"></div>
+        </div>
+        <div class="ov-meta">
+          <span class="m"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg><b>${s.learnedSet.size}</b>/${s.totalTopics} topics</span>
+          <span class="m"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><b>${s.entries.length}</b> entries</span>
+          <span class="m"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg><b>${s.streak}</b> day streak</span>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  wrap.innerHTML = html;
+
+  // animate fills
+  requestAnimationFrame(() => {
+    wrap.querySelectorAll('.ov-fill').forEach(el => {
+      const p = el.dataset.pct;
+      el.style.width = '0%';
+      void el.getBoundingClientRect();
+      setTimeout(() => { el.style.width = p + '%'; }, 80);
+    });
+  });
+
+  if (window.__attachHover) window.__attachHover(wrap);
+}
+
+/* ============================================================
+   FULL DASHBOARD
    ============================================================ */
 let activeCourse = 'Ethical Hacking';
 
@@ -1329,7 +1611,6 @@ function renderDashboard(){
   const curriculum = CURRICULUM[course] || [];
   const entries = allRows.filter(r => String(r.Course || '').trim() === course);
 
-  // ---- Progress ring ----
   const learnedSet = detectTopics(entries, course);
   const learnedCount = learnedSet.size;
   const totalTopics = curriculum.length;
@@ -1337,8 +1618,7 @@ function renderDashboard(){
 
   const ringFill = document.getElementById('ringFill');
   const ringPct  = document.getElementById('ringPct');
-  const C = 2 * Math.PI * 85; // 534.07
-  // reset & animate
+  const C = 2 * Math.PI * 85;
   ringFill.style.transition = 'none';
   ringFill.setAttribute('stroke-dashoffset', C);
   void ringFill.getBoundingClientRect();
@@ -1347,7 +1627,6 @@ function renderDashboard(){
     ringFill.setAttribute('stroke-dashoffset', C * (1 - pct / 100));
   });
 
-  // animate percentage
   (function animatePct(){
     const el = ringPct;
     const start = parseInt(el.textContent) || 0;
@@ -1367,7 +1646,6 @@ function renderDashboard(){
   document.getElementById('progressNote').textContent =
     `${learnedCount} / ${totalTopics} topics covered`;
 
-  // ---- Stats ----
   const totalEntries = entries.length;
   const daySet = new Set();
   entries.forEach(e => {
@@ -1375,7 +1653,6 @@ function renderDashboard(){
     if (d) daySet.add(d.toISOString().slice(0,10));
   });
 
-  // streak: consecutive days ending today or yesterday
   const sortedDays = [...daySet].sort();
   let streak = 0;
   if (sortedDays.length){
@@ -1409,13 +1686,11 @@ function renderDashboard(){
     requestAnimationFrame(step);
   } else { streakEl.innerHTML = streak + unit; }
 
-  // tint dashboard stat accents
   const dashStats = document.getElementById('dashStats');
   dashStats.querySelectorAll('.dash-stat').forEach(s => {
     s.classList.toggle('fx', course === 'Forex Trading');
   });
 
-  // ---- Topics grid ----
   const grid = document.getElementById('topicsGrid');
   document.getElementById('topicsMeta').textContent = `${learnedCount} of ${totalTopics}`;
   grid.innerHTML = curriculum.map((t, i) => {
@@ -1427,7 +1702,6 @@ function renderDashboard(){
     </div>`;
   }).join('');
 
-  // ---- Calendar ----
   renderCalendar(course);
 
   if (window.__attachHover) window.__attachHover(grid);
@@ -1438,7 +1712,6 @@ function renderCalendar(course){
   const el = document.getElementById('calendar');
   if (!el) return;
 
-  // Count entries per day (only for this course)
   const counts = {};
   const filtered = allRows.filter(r => String(r.Course || '').trim() === course);
   filtered.forEach(r => {
@@ -1448,11 +1721,10 @@ function renderCalendar(course){
     counts[key] = (counts[key] || 0) + 1;
   });
 
-  // Build 12-week grid ending this week
   const end = new Date(); end.setHours(0,0,0,0);
   const start = new Date(end);
   start.setDate(start.getDate() - 83);
-  start.setDate(start.getDate() - start.getDay()); // align to Sunday
+  start.setDate(start.getDate() - start.getDay());
 
   const weeks = [];
   let cursor = new Date(start);
@@ -1466,7 +1738,6 @@ function renderCalendar(course){
   }
 
   let html = '';
-  const totalCells = weeks.length * 7;
   let cellIdx = 0;
   weeks.forEach(week => {
     html += '<div class="cal-col">';
@@ -1495,6 +1766,15 @@ function renderCalendar(course){
 /* Re-render dashboard whenever tab clicked after data loaded */
 document.querySelector('.tab[data-tab="dash"]').addEventListener('click', () => {
   if (loaded) renderDashboard();
+});
+
+/* ============================================================
+   INIT — load data once so the front-page overview has content
+   ============================================================ */
+loadRecords().then(() => {
+  renderOverview();
+  // If user is somehow already on dashboard, render it too
+  if (panels.dash.classList.contains('active')) renderDashboard();
 });
 </script>
 </body>
