@@ -278,6 +278,8 @@ body{
   display:flex;align-items:center;gap:6px;
 }
 .brand-text p .prompt{color:var(--green);font-weight:700}
+
+/* Instagram button (now used in footer) */
 .ig-btn{
   display:inline-flex;align-items:center;gap:9px;
   padding:11px 18px;
@@ -504,6 +506,12 @@ body{
   transition:border-color .25s,background .25s,box-shadow .25s;
   appearance:none;-webkit-appearance:none;
   position:relative;
+}
+textarea.input{
+  display:block;
+  resize:vertical;
+  min-height:100px;
+  line-height:1.6;
 }
 select.input{
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300ff88' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");
@@ -774,6 +782,16 @@ tbody td:first-child{
 }
 tbody td b{font-weight:600;color:var(--text)}
 
+/* learned-today cell */
+td.learn-cell{
+  white-space:normal;
+  min-width:190px;
+  max-width:300px;
+  color:var(--text-2);
+  font-size:13px;
+  line-height:1.5;
+}
+
 .tag{
   display:inline-flex;align-items:center;gap:7px;
   padding:5px 11px;
@@ -1019,6 +1037,9 @@ footer a::after{
 }
 footer a:hover{color:#fff}
 footer a:hover::after{transform:scaleX(1)}
+footer .ig-btn{color:#fff;margin-top:4px}
+footer .ig-btn::after{display:none}
+footer .ig-btn:hover{color:#fff}
 
 /* ============ SCROLL REVEAL ============ */
 .reveal{
@@ -1047,6 +1068,7 @@ footer a:hover::after{transform:scaleX(1)}
   .btn{padding:15px 18px;font-size:14px}
   table{font-size:12.5px}
   thead th,tbody td{padding:12px 12px}
+  td.learn-cell{min-width:150px;max-width:200px}
   .overlay-inner{padding:32px 24px}
   .check-circle{width:72px;height:72px}
   .check-circle svg{width:34px;height:34px}
@@ -1093,6 +1115,7 @@ footer a:hover::after{transform:scaleX(1)}
 
 <div class="app">
 
+  <!-- HEADER (Instagram button removed) -->
   <div class="header reveal">
     <div class="brand">
       <div class="logo-mark">
@@ -1103,10 +1126,6 @@ footer a:hover::after{transform:scaleX(1)}
         <p><span class="prompt">~/</span>attendance.system <span style="opacity:.5">v3.0</span></p>
       </div>
     </div>
-    <a class="ig-btn" href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">
-      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.2 8.8 2.2 12 2.2zm0 3.24A6.56 6.56 0 105.44 12 6.56 6.56 0 0012 5.44zm0 10.82A4.26 4.26 0 1116.26 12 4.26 4.26 0 0112 16.26zm6.85-11.1a1.53 1.53 0 11-1.53-1.53 1.53 1.53 0 011.53 1.53z"/></svg>
-      @bilxnvyy
-    </a>
   </div>
 
   <div class="tabs reveal">
@@ -1166,6 +1185,16 @@ footer a:hover::after{transform:scaleX(1)}
             <option>Forex Trading</option>
             <option>Web Development</option>
           </select>
+        </div>
+
+        <!-- NEW FIELD -->
+        <div class="field">
+          <label for="learn">
+            <span class="idx">05</span>
+            What You Learned Today <span class="req">*</span>
+            <span class="count" id="learnCount">0/200</span>
+          </label>
+          <textarea id="learn" name="learn" class="input" placeholder="Write in short what you learned today..." required maxlength="200"></textarea>
         </div>
 
         <button type="submit" class="btn" id="submitBtn">
@@ -1229,9 +1258,14 @@ footer a:hover::after{transform:scaleX(1)}
     </div>
   </section>
 
+  <!-- FOOTER (Instagram button moved here, last) -->
   <footer class="reveal">
     <div class="status"><span class="dot"></span>System Operational · Encrypted Channel</div>
     <div>Crafted by <a href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">@bilxnvyy</a></div>
+    <a class="ig-btn" href="https://www.instagram.com/bilxnvyy" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 01-1.38-.9 3.7 3.7 0 01-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.2 8.8 2.2 12 2.2zm0 3.24A6.56 6.56 0 105.44 12 6.56 6.56 0 0012 5.44zm0 10.82A4.26 4.26 0 1116.26 12 4.26 4.26 0 0112 16.26zm6.85-11.1a1.53 1.53 0 11-1.53-1.53 1.53 1.53 0 011.53 1.53z"/></svg>
+      Follow @bilxnvyy
+    </a>
   </footer>
 </div>
 
@@ -1290,7 +1324,7 @@ const CONFIGURED = SCRIPT_URL && SCRIPT_URL.startsWith("http") && !SCRIPT_URL.in
     spot.style.transform = `translate(${sx}px,${sy}px) translate(-50%,-50%)`;
     requestAnimationFrame(loop);
   })();
-  const hoverSel = 'a,button,input,select,.tab,.stat,.ig-btn,.btn';
+  const hoverSel = 'a,button,input,select,textarea,.tab,.stat,.ig-btn,.btn';
   document.querySelectorAll(hoverSel).forEach(el => {
     el.addEventListener('mouseenter', () => ring.classList.add('hover'));
     el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
@@ -1381,6 +1415,15 @@ nameInput.addEventListener('input', () => {
   nameCount.classList.toggle('full', n >= 40);
 });
 
+/* ============ LEARNED-TODAY COUNTER ============ */
+const learnInput = document.getElementById('learn');
+const learnCount = document.getElementById('learnCount');
+learnInput.addEventListener('input', () => {
+  const n = learnInput.value.length;
+  learnCount.textContent = n + '/200';
+  learnCount.classList.toggle('full', n >= 200);
+});
+
 /* ============ BUTTON RIPPLE ============ */
 document.querySelectorAll('.btn').forEach(btn => {
   btn.addEventListener('click', e => {
@@ -1460,6 +1503,8 @@ form.addEventListener('submit', async e => {
       form.reset();
       nameCount.textContent = '0/40';
       nameCount.classList.remove('full');
+      learnCount.textContent = '0/200';
+      learnCount.classList.remove('full');
       btn.disabled = false;
       btn.innerHTML = '<span>Submit Attendance</span><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
     }, 2600);
@@ -1492,7 +1537,7 @@ async function loadRecords(){
     const local = JSON.parse(localStorage.getItem('attendance_backup') || '[]');
     allRows = local.map(r => ({
       Name: r.name, Batch: r.batch, Time: r.time, Course: r.course,
-      Date: r.date, Timestamp: r.timestamp
+      Learn: r.learn, Date: r.date, Timestamp: r.timestamp
     }));
   } catch(_){ allRows = []; }
 
@@ -1550,7 +1595,7 @@ function render(){
   }
 
   let html = '<table><thead><tr>' +
-    '<th>#</th><th>Name</th><th>Batch</th><th>Time Slot</th><th>Course</th><th>Date</th>' +
+    '<th>#</th><th>Name</th><th>Batch</th><th>Time Slot</th><th>Course</th><th>Learned Today</th><th>Date</th>' +
     '</tr></thead><tbody>';
 
   rows.forEach((r, i) => {
@@ -1559,12 +1604,15 @@ function render(){
     else if (r.Course === 'Forex Trading') tag = '<span class="tag fx">Forex Trading</span>';
     else tag = '<span class="tag wd">Web Development</span>';
 
+    const learned = r.Learn || r.Learned || r['What You Learned Today'] || r.learn || '—';
+
     html += `<tr style="animation-delay:${Math.min(i * 0.03, 0.6)}s">
       <td>${String(i + 1).padStart(2, '0')}</td>
       <td><b>${esc(r.Name || '—')}</b></td>
       <td>${esc(r.Batch || '—')}</td>
       <td>${esc(r.Time || '—')}</td>
       <td>${tag}</td>
+      <td class="learn-cell">${esc(learned)}</td>
       <td>${esc(String(r.Date || '—'))}</td>
     </tr>`;
   });
