@@ -526,6 +526,69 @@ td.actions-cell{white-space:nowrap;width:1%;text-align:right;padding-left:8px;pa
 .cal-legend .swatch{display:flex;gap:3px}
 .cal-legend .sw{width:11px;height:11px;border-radius:2.5px;border:1px solid var(--border)}
 
+/* ============ FRONT-PAGE QUICK DASHBOARD ============ */
+.fp-dash{margin-bottom:22px}
+.fp-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:22px}
+@media(max-width:560px){.fp-strip{grid-template-columns:repeat(2,1fr)}}
+.fp-stat{padding:14px 15px;background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius-sm);position:relative;overflow:hidden;
+  transition:border-color .3s,transform .25s}
+.fp-stat::before{content:"";position:absolute;top:0;left:0;width:2.5px;height:100%;
+  background:linear-gradient(180deg,var(--green),var(--green-3));
+  box-shadow:0 0 10px var(--green-glow)}
+.fp-stat:hover{border-color:var(--green-line);transform:translateY(-2px)}
+.fp-stat-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;
+  color:var(--text-3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;
+  display:flex;align-items:center;gap:6px}
+.fp-stat-label .abbr{color:var(--green);font-weight:800;padding:1px 5px;
+  background:var(--green-soft);border:1px solid var(--green-line);border-radius:3px;font-size:9px}
+.fp-stat-value{font-size:24px;font-weight:800;color:var(--text);letter-spacing:-1px;
+  line-height:1;font-variant-numeric:tabular-nums}
+.fp-stat-value .u{font-size:12px;font-weight:600;color:var(--text-3);margin-left:2px;letter-spacing:0}
+
+.fp-chart-head{display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--text-3);letter-spacing:.4px}
+.fp-chart-head b{color:var(--green);font-weight:700}
+.fp-mini-chart{display:flex;align-items:flex-end;gap:5px;height:64px;
+  padding:0 2px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.fp-mini-bar{flex:1;min-height:3px;border-radius:3px 3px 1px 1px;
+  background:linear-gradient(180deg,var(--green),var(--green-2));
+  box-shadow:0 0 6px rgba(0,255,136,.3);
+  transition:height .9s cubic-bezier(.34,1.56,.64,1);transform-origin:bottom}
+.fp-mini-bar.zero{background:var(--border-2);box-shadow:none}
+.fp-mini-bar.fx{background:linear-gradient(180deg,var(--blue),#38bdf8);
+  box-shadow:0 0 6px rgba(125,211,252,.3)}
+.fp-chart-labels{display:flex;justify-content:space-between;
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--text-4);
+  letter-spacing:.3px;margin-bottom:22px}
+
+.fp-badges-head{font-family:'JetBrains Mono',monospace;font-size:10.5px;
+  color:var(--text-3);letter-spacing:.4px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.fp-badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:8px}
+.fp-badge{padding:11px 6px;background:var(--bg);border:1px solid var(--border);
+  border-radius:var(--radius-sm);text-align:center;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+.fp-badge.unlocked{border-color:var(--green-line);
+  background:linear-gradient(180deg,rgba(0,255,136,.06),var(--bg))}
+.fp-badge.unlocked:hover{transform:translateY(-2px) scale(1.04);
+  box-shadow:0 6px 18px rgba(0,255,136,.2)}
+.fp-badge.locked{opacity:.35;filter:grayscale(1)}
+.fp-badge .ico{font-size:22px;display:block;line-height:1;margin-bottom:5px}
+.fp-badge .nm{font-size:9.5px;font-weight:700;color:var(--text-3);
+  letter-spacing:-.1px;line-height:1.15}
+.fp-badge.unlocked .nm{color:var(--green)}
+.fp-empty{padding:16px;text-align:center;font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--text-4);letter-spacing:.3px;
+  border:1px dashed var(--border-2);border-radius:var(--radius-sm)}
+
+.fp-cta{margin-top:20px;padding-top:20px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.fp-cta-text{font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--text-3);letter-spacing:.4px}
+.fp-cta-text b{color:var(--green);font-weight:700}
+
 .modal{position:fixed;inset:0;z-index:8200;background:rgba(5,7,5,.85);
   -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);display:none;
   align-items:center;justify-content:center;padding:24px;overflow-y:auto}
@@ -609,7 +672,6 @@ footer .status .dot{width:6px;height:6px;background:var(--green);border-radius:5
 footer a{color:var(--green);text-decoration:none;font-weight:600;transition:.2s}
 footer a:hover{color:var(--text)}
 
-/* CRITICAL FIX: only hide .reveal when JS is confirmed running */
 html.js-ready .reveal{opacity:0;transform:translateY(20px);
   transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1)}
 html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
@@ -623,7 +685,7 @@ html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
 
 .ov-item,.stat,.dash-stat,.topic-chip{-webkit-touch-callout:none}
 .ov-item,.stat,.dash-stat,.cal-cell,.topic-chip,.ov-badge,.logo-mark,.btn,.tab,.course-tab,
-.badge-card,.row-btn,.tool-btn,.theme-toggle{-webkit-user-select:none;user-select:none}
+.badge-card,.row-btn,.tool-btn,.theme-toggle,.fp-stat,.fp-badge{-webkit-user-select:none;user-select:none}
 
 @media(max-width:820px){
   .app{padding:20px 14px 130px}
@@ -650,6 +712,9 @@ html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
   .modal-actions{flex-direction:column}
   .toolbar{gap:6px}
   .tool-btn{padding:10px 12px;font-size:11.5px}
+  .fp-badges{grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px}
+  .fp-badge{padding:10px 4px}
+  .fp-badge .ico{font-size:20px}
   .fab-btn{display:flex;position:fixed;right:18px;bottom:calc(80px + var(--safe-b));z-index:70;
     width:60px;height:60px;border-radius:50%;
     background:linear-gradient(135deg,var(--green),var(--green-2));
@@ -753,6 +818,60 @@ html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
   </div>
 
   <section class="panel active" id="panel-form">
+
+    <!-- ============ QUICK DASHBOARD (NOW AT TOP) ============ -->
+    <div class="card reveal fp-dash">
+      <div class="card-head">
+        <h2>Quick Dashboard <span class="badge">Live</span></h2>
+        <span class="status"><span class="dot"></span>Updated in real-time</span>
+      </div>
+
+      <div class="fp-strip">
+        <div class="fp-stat">
+          <div class="fp-stat-label"><span class="abbr">TOT</span>Entries</div>
+          <div class="fp-stat-value" id="fpTot">0</div>
+        </div>
+        <div class="fp-stat">
+          <div class="fp-stat-label"><span class="abbr">TOP</span>Topics</div>
+          <div class="fp-stat-value" id="fpTopics">0</div>
+        </div>
+        <div class="fp-stat">
+          <div class="fp-stat-label"><span class="abbr">DAY</span>Active</div>
+          <div class="fp-stat-value" id="fpDays">0</div>
+        </div>
+        <div class="fp-stat">
+          <div class="fp-stat-label"><span class="abbr">STR</span>Streak</div>
+          <div class="fp-stat-value" id="fpStreak">0<span class="u">d</span></div>
+        </div>
+      </div>
+
+      <div class="fp-chart-head">
+        <span>Activity · Last 7 days</span>
+        <span>Total: <b id="fpChartTotal">0</b></span>
+      </div>
+      <div class="fp-mini-chart" id="fpMiniChart"></div>
+      <div class="fp-chart-labels" id="fpChartLabels">
+        <span>—</span><span>—</span>
+      </div>
+
+      <div class="fp-badges-head">
+        <span>Recent Achievements</span>
+        <span id="fpBadgesMeta" style="font-size:10px;opacity:.7"></span>
+      </div>
+      <div class="fp-badges" id="fpBadges"></div>
+
+      <div class="fp-cta">
+        <div class="fp-cta-text">
+          Full analytics on <b>Ethical Hacking</b> & <b>Forex Trading</b>
+        </div>
+        <button class="tool-btn" id="fpFullDash" type="button">
+          Open Full Dashboard
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- ============ PROGRESS OVERVIEW ============ -->
     <div class="overview reveal" id="overviewCard">
       <div class="ov-head">
         <h3>
@@ -766,6 +885,7 @@ html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
       </div>
     </div>
 
+    <!-- ============ NEW ENTRY FORM ============ -->
     <div class="card reveal">
       <div class="warn" id="warnBox"></div>
       <div class="card-head">
@@ -1075,10 +1195,7 @@ html.js-ready .reveal.in{opacity:1;transform:translateY(0)}
 
 <script>
 "use strict";
-/* ============ GLOBAL ERROR HANDLER ============ */
-window.addEventListener('error', e => {
-  console.error('[VERDANT]', e.message, 'at line', e.lineno);
-});
+window.addEventListener('error', e => { console.error('[VERDANT]', e.message, 'at line', e.lineno); });
 
 /* ============ CONFIG ============ */
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzNy-GherrkYI6glgonm8n8yoXFAJ81t2lS5R2Ab4pkpBKd6dsLVKr26DkTVcMAXoY/exec";
@@ -1615,7 +1732,7 @@ function deleteEntry(idx){
   try { localStorage.setItem('attendance_backup', JSON.stringify(next)); } catch(_){}
 
   allRows = loadLocal();
-  render(); renderOverview(); renderDashboard(); updateBadges();
+  render(); renderOverview(); renderDashboard(); updateBadges(); renderFrontDash();
 
   showToast('Entry deleted', false, () => {
     let cur = [];
@@ -1623,7 +1740,7 @@ function deleteEntry(idx){
     cur.splice(idx, 0, removed);
     try { localStorage.setItem('attendance_backup', JSON.stringify(cur)); } catch(_){}
     allRows = loadLocal();
-    render(); renderOverview(); renderDashboard(); updateBadges();
+    render(); renderOverview(); renderDashboard(); updateBadges(); renderFrontDash();
     showToast('Entry restored');
   });
 }
@@ -1653,7 +1770,7 @@ function initEditModal(){
     backup[idx] = entry;
     try { localStorage.setItem('attendance_backup', JSON.stringify(backup)); } catch(_){}
     allRows = loadLocal();
-    render(); renderOverview(); renderDashboard(); updateBadges();
+    render(); renderOverview(); renderDashboard(); updateBadges(); renderFrontDash();
     closeEditModal();
     showToast('Entry updated successfully');
   });
@@ -1719,7 +1836,7 @@ function initForm(){
       showOverlay('Journal Entry Saved', 'Your entry has been recorded and synced to the cloud.', 'Saved to Journal');
       allRows = loadLocal();
       loaded = true;
-      render(); renderOverview(); renderDashboard(); updateBadges();
+      render(); renderOverview(); renderDashboard(); updateBadges(); renderFrontDash();
       setTimeout(() => {
         const o = $('overlay');
         if (o) o.classList.remove('show');
@@ -2095,6 +2212,110 @@ function renderCalendar(course){
   el.innerHTML = html;
 }
 
+/* ============ FRONT-PAGE QUICK DASHBOARD ============ */
+function renderFrontDash(){
+  const totalEntries = allRows.length;
+
+  const allDays = new Set();
+  allRows.forEach(r => {
+    const d = parseDate(r.Date) || parseDate(r.Timestamp);
+    if (d) allDays.add(dayKey(d));
+  });
+
+  let totalTopicsLearned = 0;
+  Object.keys(CURRICULUM).forEach(course => {
+    const entries = allRows.filter(r => String(r.Course || '').trim() === course);
+    totalTopicsLearned += detectTopics(entries, course).size;
+  });
+
+  const streak = computeStreakFromDays(allDays);
+
+  animateCount($('fpTot'), totalEntries);
+  animateCount($('fpTopics'), totalTopicsLearned);
+  animateCount($('fpDays'), allDays.size);
+  const fsEl = $('fpStreak');
+  if (fsEl) fsEl.innerHTML = streak + '<span class="u">d</span>';
+
+  const counts = {};
+  allRows.forEach(r => {
+    const d = parseDate(r.Date) || parseDate(r.Timestamp);
+    if (!d) return;
+    const key = dayKey(d);
+    counts[key] = (counts[key] || 0) + 1;
+  });
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  const series = [];
+  for (let i = 6; i >= 0; i--){
+    const d = new Date(today); d.setDate(today.getDate() - i);
+    series.push({ date: d, count: counts[dayKey(d)] || 0 });
+  }
+
+  let max = 1;
+  series.forEach(s => { if (s.count > max) max = s.count; });
+  let weekTotal = 0;
+  series.forEach(s => { weekTotal += s.count; });
+
+  const chart = $('fpMiniChart');
+  if (chart) {
+    chart.innerHTML = series.map(s => {
+      const h = Math.max(3, (s.count / max) * 100);
+      const lbl = s.date.toLocaleDateString('en-IN', { day:'2-digit', month:'short' });
+      return '<div class="fp-mini-bar ' + (s.count ? '' : 'zero') + '" ' +
+             'style="height:0%" data-h="' + h + '" title="' + lbl + ': ' + s.count + '"></div>';
+    }).join('');
+    requestAnimationFrame(() => {
+      chart.querySelectorAll('.fp-mini-bar').forEach((b, i) => {
+        b.style.transitionDelay = (i * 0.04) + 's';
+        setTimeout(() => { b.style.height = b.dataset.h + '%'; }, 30);
+      });
+    });
+  }
+
+  const ct = $('fpChartTotal');
+  if (ct) ct.textContent = weekTotal;
+
+  const labels = $('fpChartLabels');
+  if (labels) {
+    const first = series[0].date.toLocaleDateString('en-IN', { day:'2-digit', month:'short' });
+    const last  = series[series.length - 1].date.toLocaleDateString('en-IN', { day:'2-digit', month:'short' });
+    labels.innerHTML = '<span>' + first + '</span><span>Today · ' + last + '</span>';
+  }
+
+  const grid = $('fpBadges');
+  const meta = $('fpBadgesMeta');
+  if (!grid) return;
+
+  const stats = computeBadgeStats();
+  const unlocked = BADGES.filter(b => b.test(stats));
+  const locked   = BADGES.filter(b => !b.test(stats));
+
+  const preview = unlocked.slice(-4).concat(locked.slice(0, Math.max(0, 6 - unlocked.length)));
+  const finalPreview = preview.slice(0, 6);
+
+  if (!finalPreview.length){
+    grid.innerHTML = '<div class="fp-empty">Write your first entry to unlock achievements</div>';
+  } else {
+    grid.innerHTML = finalPreview.map(b => {
+      const isUnlocked = unlocked.indexOf(b) !== -1;
+      return '<div class="fp-badge ' + (isUnlocked ? 'unlocked' : 'locked') + '">' +
+        '<span class="ico">' + b.icon + '</span>' +
+        '<div class="nm">' + esc(b.name) + '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  if (meta) meta.textContent = unlocked.length + ' / ' + BADGES.length + ' unlocked';
+}
+
+function initFrontDash(){
+  const btn = $('fpFullDash');
+  if (btn) btn.addEventListener('click', () => {
+    switchTab('dash');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
 /* ============ MISC UI ============ */
 function initCourseTabs(){
   document.querySelectorAll('.course-tab').forEach(btn => {
@@ -2159,9 +2380,11 @@ function init(){
   initChartTabs();
   initButtonRipple();
   initWarn();
+  initFrontDash();
 
   loadRecords().then(() => {
     try { renderOverview(); } catch(e){ console.warn('renderOverview:', e); }
+    try { renderFrontDash(); } catch(e){ console.warn('renderFrontDash:', e); }
     try { updateBadges(); } catch(e){ console.warn('updateBadges:', e); }
     const dash = $('panel-dash');
     if (dash && dash.classList.contains('active')){
